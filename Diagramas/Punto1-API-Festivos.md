@@ -58,11 +58,11 @@ graph TD
     Controllers -.->|11. Respuesta Texto / JSON| Client
 
     %% Estilos de Nodos
-    style ClientLayer fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
-    style PresentationLayer fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    style BusinessLayer fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
-    style DataAccessLayer fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    style PersistenceLayer fill:#ffebee,stroke:#d32f2f,stroke-width:2px
+    style ClientLayer fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#000
+    style PresentationLayer fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#000
+    style BusinessLayer fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#000
+    style DataAccessLayer fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
+    style PersistenceLayer fill:#ffebee,stroke:#d32f2f,stroke-width:2px,color:#000
 ```
 
 ---
