@@ -1,5 +1,11 @@
 # Punto 1 – API RESTful Festivos (Express JS + MongoDB)
 
+**Integrantes:**
+- Sebastian Restrepo Mira
+- Vanessa Espinosa Cardona
+- Eric David Florez Vasquez
+- Mateo Mesa Cardona
+
 ## Endpoints que expone la API
 
 | Método | Ruta | Respuesta |
