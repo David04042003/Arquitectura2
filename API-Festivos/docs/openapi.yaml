@@ -1,0 +1,146 @@
+openapi: 3.0.3
+info:
+  title: API Festivos Colombia
+  version: 1.0.0
+  description: |
+    API RESTful (Express JS + MongoDB) que calcula los festivos de Colombia.
+
+    Los festivos se leen de la colección `tipos` de la base de datos `festivos` y se calculan según su tipo:
+
+    | id | Tipo | Cálculo |
+    |---|---|---|
+    | 1 | Fijo | Fecha (día y mes) |
+    | 2 | Ley de "Puente festivo" | Fecha trasladada al siguiente lunes |
+    | 3 | Basado en el domingo de pascua | Domingo de pascua + `diasPascua` |
+    | 4 | Pascua + "Puente festivo" | Domingo de pascua + `diasPascua`, trasladado al siguiente lunes |
+
+    **Integrantes:** Sebastian Restrepo Mira, Vanessa Espinosa Cardona, Eric David Florez Vasquez, Mateo Mesa Cardona.
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+tags:
+  - name: Festivos
+    description: Consulta y verificación de festivos
+paths:
+  /api/festivos/verificar/{anio}/{mes}/{dia}:
+    get:
+      tags: [Festivos]
+      summary: Verifica si una fecha es festivo
+      operationId: verificarFestivo
+      parameters:
+        - $ref: '#/components/parameters/Anio'
+        - name: mes
+          in: path
+          required: true
+          description: Mes (1 a 12)
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 12
+          example: 1
+        - name: dia
+          in: path
+          required: true
+          description: Día del mes (1 a 31, debe existir en el mes)
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 31
+          example: 1
+      responses:
+        '200':
+          description: Resultado de la verificación
+          content:
+            text/plain:
+              schema:
+                type: string
+                enum: [Es Festivo, No es festivo]
+              examples:
+                festivo:
+                  summary: 2023-01-01
+                  value: Es Festivo
+                noFestivo:
+                  summary: 2023-01-02
+                  value: No es festivo
+        '400':
+          description: La fecha no existe (ej. 2023/02/30)
+          content:
+            text/plain:
+              schema:
+                type: string
+                enum: [Fecha No valida]
+        '500':
+          $ref: '#/components/responses/ErrorInterno'
+  /api/festivos/obtener/{anio}:
+    get:
+      tags: [Festivos]
+      summary: Obtiene los festivos de un año ordenados por fecha
+      description: Este endpoint lo consume la API Calendario (Spring Boot) para clasificar los días del año.
+      operationId: obtenerFestivos
+      parameters:
+        - $ref: '#/components/parameters/Anio'
+      responses:
+        '200':
+          description: Lista de festivos del año
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Festivo'
+              example:
+                - festivo: Año nuevo
+                  fecha: '2023-01-01'
+                - festivo: Santos Reyes
+                  fecha: '2023-01-09'
+        '400':
+          description: El año no es válido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                mensaje: Año no válido. Debe ser un entero entre 1583 y 9999
+        '500':
+          $ref: '#/components/responses/ErrorInterno'
+components:
+  parameters:
+    Anio:
+      name: anio
+      in: path
+      required: true
+      description: Año del calendario gregoriano (1583 a 9999)
+      schema:
+        type: integer
+        minimum: 1583
+        maximum: 9999
+      example: 2023
+  schemas:
+    Festivo:
+      type: object
+      required: [festivo, fecha]
+      properties:
+        festivo:
+          type: string
+          description: Nombre del festivo
+          example: Año nuevo
+        fecha:
+          type: string
+          format: date
+          description: Fecha del festivo (YYYY-MM-DD)
+          example: '2023-01-01'
+    Error:
+      type: object
+      required: [mensaje]
+      properties:
+        mensaje:
+          type: string
+  responses:
+    ErrorInterno:
+      description: Error interno del servidor (ej. base de datos no disponible)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            mensaje: Error interno del servidor
