@@ -1,0 +1,94 @@
+# Red de contenedores "redcalendario" con los 2 microservicios y sus bases de datos.
+#
+#   dockerbdfestivos      (MongoDB)     <- dockerapifestivos   (Express JS)
+#   dockerbdcalendario    (PostgreSQL)  <- dockerapicalendario (Spring Boot) -> dockerapifestivos
+#
+# Uso (desde esta carpeta):  docker compose up -d --build
+name: arquitectura2
+
+services:
+  dockerbdfestivos:
+    build: ./BD-Festivos
+    image: bdfestivos
+    container_name: dockerbdfestivos
+    ports:
+      - "27018:27017"
+    volumes:
+      - datosfestivos:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - redcalendario
+
+  dockerapifestivos:
+    build:
+      context: ../API-Festivos
+      dockerfile: ../Contenerizacion/API-Festivos/Dockerfile
+    image: apifestivos
+    container_name: dockerapifestivos
+    environment:
+      PUERTO: 8080
+      MONGO_URI: mongodb://dockerbdfestivos:27017/festivos
+    ports:
+      - "8080:8080"
+    depends_on:
+      dockerbdfestivos:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/api/festivos/obtener/2025"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - redcalendario
+
+  dockerbdcalendario:
+    build: ./BD-Calendario
+    image: bdcalendario
+    container_name: dockerbdcalendario
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - datoscalendario:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d calendario"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - redcalendario
+
+  dockerapicalendario:
+    build:
+      context: ../API-Calendario
+      dockerfile: ../Contenerizacion/API-Calendario/Dockerfile
+    image: apicalendario
+    container_name: dockerapicalendario
+    environment:
+      PUERTO: 8081
+      DB_URL: jdbc:postgresql://dockerbdcalendario:5432/calendario
+      DB_USUARIO: postgres
+      DB_CLAVE: postgres
+      FESTIVOS_API_URL: http://dockerapifestivos:8080
+    ports:
+      - "8081:8081"
+    depends_on:
+      dockerbdcalendario:
+        condition: service_healthy
+      dockerapifestivos:
+        condition: service_healthy
+    networks:
+      - redcalendario
+
+networks:
+  redcalendario:
+    name: redcalendario
+
+volumes:
+  datosfestivos:
+  datoscalendario:
