@@ -1,0 +1,13 @@
+Fecha: 2026-11-24 21:59:39 -0500
+
+$ docker network ls --filter name=redcalendario
+NETWORK ID     NAME            DRIVER    SCOPE
+e478d20673b8   redcalendario   bridge    local
+
+$ docker network inspect redcalendario --format '{{range .Containers}}{{.Name}}  {{.IPv4Address}}{{println}}{{end}}'
+dockerapicalendario  172.19.0.5/16
+dockerapifestivos  172.19.0.4/16
+dockerbdfestivos  172.19.0.3/16
+dockerbdcalendario  172.19.0.2/16
+
+

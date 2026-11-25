@@ -1,0 +1,16 @@
+Fecha: 2026-11-24 21:59:39 -0500
+
+$ docker compose ps
+NAME                  IMAGE           COMMAND                  SERVICE               CREATED              STATUS                        PORTS
+dockerapicalendario   apicalendario   "/__cacert_entrypoin…"   dockerapicalendario   About a minute ago   Up About a minute             0.0.0.0:8081->8081/tcp, [::]:8081->8081/tcp
+dockerapifestivos     apifestivos     "docker-entrypoint.s…"   dockerapifestivos     About a minute ago   Up About a minute (healthy)   0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+dockerbdcalendario    bdcalendario    "docker-entrypoint.s…"   dockerbdcalendario    About a minute ago   Up About a minute (healthy)   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp
+dockerbdfestivos      bdfestivos      "docker-entrypoint.s…"   dockerbdfestivos      About a minute ago   Up About a minute (healthy)   0.0.0.0:27018->27017/tcp, [::]:27018->27017/tcp
+
+$ docker ps --format table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}
+NAMES                 IMAGE           STATUS                        PORTS
+dockerapicalendario   apicalendario   Up About a minute             0.0.0.0:8081->8081/tcp, [::]:8081->8081/tcp
+dockerapifestivos     apifestivos     Up About a minute (healthy)   0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+dockerbdcalendario    bdcalendario    Up About a minute (healthy)   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp
+dockerbdfestivos      bdfestivos      Up About a minute (healthy)   0.0.0.0:27018->27017/tcp, [::]:27018->27017/tcp
+

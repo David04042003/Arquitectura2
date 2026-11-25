@@ -1,0 +1,36 @@
+Fecha: 2026-11-24 21:59:40 -0500
+
+$ docker exec dockerbdcalendario psql -U postgres -c \l calendario
+                                                   List of databases
+    Name    |  Owner   | Encoding | Locale Provider |  Collate   |   Ctype    | Locale | ICU Rules | Access privileges 
+------------+----------+----------+-----------------+------------+------------+--------+-----------+-------------------
+ calendario | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           | 
+(1 row)
+
+
+$ docker exec dockerbdcalendario psql -U postgres -d calendario -c \dt
+           List of relations
+ Schema |    Name    | Type  |  Owner   
+--------+------------+-------+----------
+ public | calendario | table | postgres
+ public | tipo       | table | postgres
+ public | usuario    | table | postgres
+(3 rows)
+
+
+$ docker exec dockerbdcalendario psql -U postgres -d calendario -c SELECT * FROM tipo;
+ id |     tipo      
+----+---------------
+  1 | Día laboral
+  2 | Fin de Semana
+  3 | Día festivo
+(3 rows)
+
+
+$ docker exec dockerbdcalendario psql -U postgres -d calendario -c SELECT id, usuario, nombre, roles FROM usuario;
+ id | usuario |    nombre     | roles 
+----+---------+---------------+-------
+  1 | admin   | Administrador | ADMIN
+(1 row)
+
+

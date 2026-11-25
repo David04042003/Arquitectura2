@@ -1,0 +1,94 @@
+Fecha: 2026-11-24 21:59:40 -0500
+
+$ curl http://localhost:8080/api/festivos/verificar/2023/12/25
+Es Festivo
+[HTTP 200]
+
+
+$ curl http://localhost:8080/api/festivos/verificar/2023/12/26
+No es festivo
+[HTTP 200]
+
+
+$ curl http://localhost:8080/api/festivos/obtener/2023
+[
+  {
+    "festivo": "Año nuevo",
+    "fecha": "2023-01-01"
+  },
+  {
+    "festivo": "Santos Reyes",
+    "fecha": "2023-01-09"
+  },
+  {
+    "festivo": "San José",
+    "fecha": "2023-03-20"
+  },
+  {
+    "festivo": "Jueves Santo",
+    "fecha": "2023-04-06"
+  },
+  {
+    "festivo": "Viernes Santo",
+    "fecha": "2023-04-07"
+  },
+  {
+    "festivo": "Domingo de Pascua",
+    "fecha": "2023-04-09"
+  },
+  {
+    "festivo": "Día del Trabajo",
+    "fecha": "2023-05-01"
+  },
+  {
+    "festivo": "Ascensión del Señor",
+    "fecha": "2023-05-22"
+  },
+  {
+    "festivo": "Corpus Christi",
+    "fecha": "2023-06-12"
+  },
+  {
+    "festivo": "Sagrado Corazón de Jesús",
+    "fecha": "2023-06-19"
+  },
+  {
+    "festivo": "San Pedro y San Pablo",
+    "fecha": "2023-07-03"
+  },
+  {
+    "festivo": "Independencia Colombia",
+    "fecha": "2023-07-20"
+  },
+  {
+    "festivo": "Batalla de Boyacá",
+    "fecha": "2023-08-07"
+  },
+  {
+    "festivo": "Asunción de la Virgen",
+    "fecha": "2023-08-21"
+  },
+  {
+    "festivo": "Día de la Raza",
+    "fecha": "2023-10-16"
+  },
+  {
+    "festivo": "Todos los santos",
+    "fecha": "2023-11-06"
+  },
+  {
+    "festivo": "Independencia de Cartagena",
+    "fecha": "2023-11-13"
+  },
+  {
+    "festivo": "Inmaculada Concepción",
+    "fecha": "2023-12-08"
+  },
+  {
+    "festivo": "Navidad",
+    "fecha": "2023-12-25"
+  }
+]
+[HTTP 200]
+
+

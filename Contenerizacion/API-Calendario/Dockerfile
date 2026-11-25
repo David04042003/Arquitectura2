@@ -1,13 +1,24 @@
-# ---------- Etapa 1: compilar el .jar con Maven ----------
+# Repositorio de GitHub donde está el código fuente de la API
+# (se puede cambiar con --build-arg REPO=... y --build-arg RAMA=...)
+ARG REPO=https://github.com/David04042003/Arquitectura2.git
+ARG RAMA=main
+
+# ---------- Etapa 1: descargar el código fuente desde GitHub ----------
+FROM scratch AS fuente
+ARG REPO
+ARG RAMA
+ADD ${REPO}#${RAMA} /repo
+
+# ---------- Etapa 2: compilar el .jar con Maven ----------
 # Equivale a ejecutar "mvn clean package -DskipTests" sin tener Maven instalado
 FROM maven:3.9-eclipse-temurin-17 AS compilacion
 WORKDIR /compilacion
-COPY pom.xml .
+COPY --from=fuente /repo/API-Calendario/pom.xml .
 RUN mvn -B -q dependency:go-offline
-COPY src ./src
+COPY --from=fuente /repo/API-Calendario/src ./src
 RUN mvn -B -q clean package -DskipTests
 
-# ---------- Etapa 2: imagen final solo con Java 17 y el .jar ----------
+# ---------- Etapa 3: imagen final solo con Java 17 y el .jar ----------
 # (imagen multiplataforma: funciona en Windows/Linux x86 y en Mac con chip Apple)
 FROM eclipse-temurin:17-jre
 

@@ -1,0 +1,24 @@
+Fecha: 2026-11-24 21:59:39 -0500
+
+$ docker --version
+Docker version 29.9.3, build 5457199
+
+$ docker compose version
+Docker Compose version v5.7.0
+
+$ docker images --format table {{.Repository}}\t{{.Tag}}\t{{.Size}} apifestivos
+REPOSITORY    TAG       SIZE
+apifestivos   latest    302MB
+
+$ docker images --format table {{.Repository}}\t{{.Tag}}\t{{.Size}} apicalendario
+REPOSITORY      TAG       SIZE
+apicalendario   latest    565MB
+
+$ docker images --format table {{.Repository}}\t{{.Tag}}\t{{.Size}} bdfestivos
+REPOSITORY   TAG       SIZE
+bdfestivos   latest    1.26GB
+
+$ docker images --format table {{.Repository}}\t{{.Tag}}\t{{.Size}} bdcalendario
+REPOSITORY     TAG       SIZE
+bdcalendario   latest    690MB
+

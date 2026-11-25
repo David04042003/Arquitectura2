@@ -1,3 +1,15 @@
+# Repositorio de GitHub donde está el código fuente de la API
+# (se puede cambiar con --build-arg REPO=... y --build-arg RAMA=...)
+ARG REPO=https://github.com/David04042003/Arquitectura2.git
+ARG RAMA=main
+
+# ---------- Etapa 1: descargar el código fuente desde GitHub ----------
+FROM scratch AS fuente
+ARG REPO
+ARG RAMA
+ADD ${REPO}#${RAMA} /repo
+
+# ---------- Etapa 2: imagen de la API ----------
 # Imagen de Node.js como base
 FROM node:22-alpine
 
@@ -6,14 +18,14 @@ WORKDIR /usr/src/app
 
 # Instalar dependencias (se copian package.json y package-lock.json primero
 # para aprovechar la caché de capas de Docker)
-COPY package*.json ./
+COPY --from=fuente /repo/API-Festivos/package*.json ./
 RUN npm ci --omit=dev
 
 # Copiar el código fuente de la aplicación
-COPY src ./src
-COPY docs ./docs
-COPY datos ./datos
-COPY scripts ./scripts
+COPY --from=fuente /repo/API-Festivos/src ./src
+COPY --from=fuente /repo/API-Festivos/docs ./docs
+COPY --from=fuente /repo/API-Festivos/datos ./datos
+COPY --from=fuente /repo/API-Festivos/scripts ./scripts
 
 # Configuración por defecto (se puede sobrescribir con -e al crear el contenedor)
 ENV NODE_ENV=production \

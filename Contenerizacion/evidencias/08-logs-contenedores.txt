@@ -1,0 +1,42 @@
+Fecha: 2026-11-24 21:59:41 -0500
+
+===================== dockerbdfestivos =====================
+{"t":{"$date":"2026-11-25T02:58:16.126+00:00"},"s":"I",  "c":"NETWORK",  "id":23016,   "ctx":"listener","msg":"Waiting for connections","attr":{"port":27017,"ssl":"off"}}
+/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/iniciarbdfestivos.js
+Base de datos "festivos" poblada: 4 tipos
+{"t":{"$date":"2026-11-25T02:58:18.103+00:00"},"s":"I",  "c":"NETWORK",  "id":23016,   "ctx":"listener","msg":"Waiting for connections","attr":{"port":27017,"ssl":"off"}}
+
+===================== dockerapifestivos =====================
+Conectado a MongoDB: festivos
+API Festivos escuchando en http://localhost:8080
+Swagger UI: http://localhost:8080/api-docs
+
+===================== dockerbdcalendario =====================
+2026-11-25 02:58:16.089 UTC [48] LOG:  database system is ready to accept connections
+/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/01_DDL_Calendario.sql
+CREATE DATABASE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/02_DML_Calendario.sql
+INSERT 0 3
+2026-11-25 02:58:16.370 UTC [1] LOG:  database system is ready to accept connections
+
+===================== dockerapicalendario =====================
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-25T02:58:29.169Z  INFO 1 --- [apicalendario] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-25T02:58:29.183Z  INFO 1 --- [apicalendario] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-25T02:58:29.345Z  INFO 1 --- [apicalendario] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-25T02:58:29.687Z  INFO 1 --- [apicalendario] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name usuarioDetalleServicio
+2026-11-25T02:58:29.826Z  INFO 1 --- [apicalendario] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-11-25T02:58:29.831Z  INFO 1 --- [apicalendario] [           main] apicalendario.ApicalendarioApplication   : Started ApicalendarioApplication in 2.375 seconds (process running for 2.827)
+2026-11-25T02:58:29.945Z  INFO 1 --- [apicalendario] [           main] a.i.configuracion.InicializadorUsuario   : Usuario inicial 'admin' creado
+2026-11-25T02:58:29.945Z  WARN 1 --- [apicalendario] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-11-25T02:58:29.945Z  WARN 1 --- [apicalendario] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-11-25T02:59:39.383Z  INFO 1 --- [apicalendario] [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-25T02:59:39.383Z  INFO 1 --- [apicalendario] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-11-25T02:59:39.386Z  INFO 1 --- [apicalendario] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+

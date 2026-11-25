@@ -1,0 +1,87 @@
+Fecha: 2026-11-24 21:59:40 -0500
+
+$ curl http://localhost:8081/api/calendario/listar/2023   (sin token)
+[HTTP 403] -> acceso denegado sin token
+
+$ curl http://localhost:8081/api/usuarios/validar/admin/admin123
+{
+  "usuario": {
+    "id": 1,
+    "usuario": "admin",
+    "nombre": "Administrador",
+    "roles": "ADMIN"
+  },
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc5NTU3NTU4MSwiZXhwIjoxNzk1NTc3MzgxfQ.PniASIGYgunk9x6q6UNknjLWMGQf6vg2TeKGJYXeAZI"
+}
+
+$ curl -H "Authorization: Bearer $TOKEN" http://localhost:8081/api/calendario/generar/2023
+  (la API Calendario consulta los festivos a dockerapifestivos -> dockerbdfestivos y guarda en dockerbdcalendario)
+true
+[HTTP 200]
+
+$ curl -H "Authorization: Bearer $TOKEN" http://localhost:8081/api/calendario/listar/2023
+Total de dias: 365
+  Día festivo: 19
+  Día laboral: 243
+  Fin de Semana: 103
+
+Dias festivos 2023:
+  2023-01-01 Año nuevo
+  2023-01-09 Santos Reyes
+  2023-03-20 San José
+  2023-04-06 Jueves Santo
+  2023-04-07 Viernes Santo
+  2023-04-09 Domingo de Pascua
+  2023-05-01 Día del Trabajo
+  2023-05-22 Ascensión del Señor
+  2023-06-12 Corpus Christi
+  2023-06-19 Sagrado Corazón de Jesús
+  2023-07-03 San Pedro y San Pablo
+  2023-07-20 Independencia Colombia
+  2023-08-07 Batalla de Boyacá
+  2023-08-21 Asunción de la Virgen
+  2023-10-16 Día de la Raza
+  2023-11-06 Todos los santos
+  2023-11-13 Independencia de Cartagena
+  2023-12-08 Inmaculada Concepción
+  2023-12-25 Navidad
+
+Primeros 3 registros:
+[
+  {
+    "id": 1,
+    "fecha": "2023-01-01",
+    "tipo": {
+      "id": 3,
+      "tipo": "Día festivo"
+    },
+    "descripcion": "Año nuevo"
+  },
+  {
+    "id": 2,
+    "fecha": "2023-01-02",
+    "tipo": {
+      "id": 1,
+      "tipo": "Día laboral"
+    },
+    "descripcion": "Lunes"
+  },
+  {
+    "id": 3,
+    "fecha": "2023-01-03",
+    "tipo": {
+      "id": 1,
+      "tipo": "Día laboral"
+    },
+    "descripcion": "Martes"
+  }
+]
+
+$ docker exec dockerbdcalendario psql -U postgres -d calendario -c "SELECT t.tipo, COUNT(*) FROM calendario c JOIN tipo t ON t.id = c.idtipo GROUP BY t.tipo;"
+     tipo      | count 
+---------------+-------
+ Día festivo   |    19
+ Día laboral   |   243
+ Fin de Semana |   103
+(3 rows)
+

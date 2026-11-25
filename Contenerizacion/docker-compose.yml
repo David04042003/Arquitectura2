@@ -24,9 +24,7 @@ services:
       - redcalendario
 
   dockerapifestivos:
-    build:
-      context: ../API-Festivos
-      dockerfile: ../Contenerizacion/API-Festivos/Dockerfile
+    build: ./API-Festivos   # el Dockerfile descarga el código desde GitHub
     image: apifestivos
     container_name: dockerapifestivos
     environment:
@@ -64,9 +62,7 @@ services:
       - redcalendario
 
   dockerapicalendario:
-    build:
-      context: ../API-Calendario
-      dockerfile: ../Contenerizacion/API-Calendario/Dockerfile
+    build: ./API-Calendario   # el Dockerfile descarga el código desde GitHub y compila el .jar
     image: apicalendario
     container_name: dockerapicalendario
     environment:
